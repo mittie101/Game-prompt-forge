@@ -19,6 +19,24 @@ Development notes
 - CSP tightened: renderer disallows `unsafe-inline` styles/scripts.
 - Playwright e2e and GitHub Actions CI included (see `.github/workflows/ci.yml`).
 
+Dependency: Agent Sprite Forge
+
+This project uses the `agent-sprite-forge` skill for generating 2D sprites and maps. The generator expects the following skills to be available for correct asset generation:
+
+- `$generate2dsprite`
+- `$generate2dmap`
+
+Agent Sprite Forge repo: https://github.com/0x0funky/agent-sprite-forge
+
+Quick integration steps:
+
+1. Clone the Agent Sprite Forge repository next to this project (or anywhere accessible):
+   ```bash
+   git clone https://github.com/0x0funky/agent-sprite-forge.git
+   ```
+2. Follow the Agent Sprite Forge README for installation details (Python, Pillow, and other local processors may be required). Typical steps include installing dependencies and running its local processors or server.
+3. Ensure any local skill paths or environment variables expected by the skill are configured so the prompt generation can reference `$generate2dsprite` / `$generate2dmap`.
+
 Contributing
 
 Open issues or PRs. Tests run locally with `npm test`; CI runs tests and e2e on pushes/pull requests.
