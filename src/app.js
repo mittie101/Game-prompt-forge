@@ -144,7 +144,22 @@ async function startGenerate(useLast) {
   stagingText = '';
   outputEl.textContent = '';
 
-  const { retryInvoke } = require('./retry');
+  // load retryInvoke in a way that works in Electron renderer (require) or browser (dynamic import)
+  let retryInvoke;
+  try {
+    if (typeof require === 'function') {
+      // Node-style require available in some Electron setups
+      retryInvoke = require('./retry').retryInvoke;
+    } else {
+      // fallback to ES dynamic import when running as a normal browser script
+      const mod = await import('./retry.js');
+      retryInvoke = mod.retryInvoke;
+    }
+  } catch (e) {
+    console.error('Failed to load retry module', e);
+    setStatus('Internal error');
+    return;
+  }
   const invokeFn = () => window.api.invoke('prompt:generate', { genre, theme });
 
   const res = await retryInvoke(invokeFn, {
