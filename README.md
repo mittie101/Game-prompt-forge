@@ -37,6 +37,31 @@ Quick integration steps:
 2. Follow the Agent Sprite Forge README for installation details (Python, Pillow, and other local processors may be required). Typical steps include installing dependencies and running its local processors or server.
 3. Ensure any local skill paths or environment variables expected by the skill are configured so the prompt generation can reference `$generate2dsprite` / `$generate2dmap`.
 
+Example prompt
+
+Use the following minimal example to ask the generator to create a playable character sprite and a short description for a cozy farming hero. Replace or expand details as needed:
+
+```text
+Build a 2D top-down cozy farming RPG playable protagonist.
+
+You must use the Agent Sprite Forge skill to generate the character art.
+Use: $generate2dsprite to create a 32x32 animated hero (walk N/S/E/W, idle, interact).
+
+Core concept:
+A resilient farmer who cultivates moon-flowers and befriends lost spirits.
+
+Visual direction:
+Pixel art, limited palette, warm colors, slightly oversized head for readability.
+
+Required assets:
+- Hero sprite sheet (32x32, 4 directions, 8 frames per walk cycle)
+- Idle animation (breathing + tool hold)
+- Simple walking sound hints in metadata
+
+Final expected result:
+A sprite sheet archive and metadata describing frame names, pivot points, and a short gameplay blurb.
+```
+
 Contributing
 
 Open issues or PRs. Tests run locally with `npm test`; CI runs tests and e2e on pushes/pull requests.
