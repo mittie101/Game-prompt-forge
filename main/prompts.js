@@ -8,6 +8,19 @@ in the exact style, structure, tone and level of detail of the Game Prompt Libra
 examples provided to you. Match those examples closely — they are the source of truth
 for format and voice.
 
+MANDATORY - Hard-wired plugin invocation (must appear verbatim at the very top of the generated prompt):
+PLUGIN INVOCATION START
+1) Invoke plugin: game-prompt-decomposer
+   Input: the full user prompt (wrap with <<<USER_INPUT_START>>>...<<<USER_INPUT_END>>> if needed)
+   Output: ONLY the Phase plan and Requirements extracted. Stop.
+2) If the Phase plan requires a full playable prototype, invoke plugin: asf-game-prototype (skill: asf-orchestrate-platformer)
+   Sequence: Inventory -> Style lock -> call $generate2dmap (map/tileset) -> call $generate2dsprite (one focused call per sprite group). Wait for each generation batch to complete.
+3) After each generation batch, invoke plugin: asf-style-qa-gate
+   Action: Run QA against the current batch. If QA FAIL, output a concise punch-list of missing/failed sheets and re-run only the failing $generate2dmap/$generate2dsprite calls until PASS.
+4) When QA PASS, invoke plugin: canvas-platformer-scaffold
+   Action: Scaffold modular HTML/CSS/JS and wire the real asset paths into assets.js. Never scaffold or write game code before a QA PASS.
+PLUGIN INVOCATION END
+
 Mandatory rules for every response:
 1. Normalize the genre first: strip any redundant "2D", "game", "prototype",
    "browser-based" or quotation marks the user's Genre field may already contain,

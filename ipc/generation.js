@@ -6,6 +6,7 @@ const examples = require('../main/examples');
 const storage = require('../main/storage');
 const config = require('../main/config');
 const { saveGeneration } = require('./history');
+const { orchestrate } = require('../main/orchestrator');
 
 let currentAbort = null;
 
@@ -86,10 +87,21 @@ function register(ipcMain, getWindow) {
         return { success: true, data: { id: null, fullText: trimmed, warning: 'Could not save to history' } };
       }
 
-      if (win && !win.isDestroyed()) {
-        win.webContents.send('prompt:done', { id, fullText: trimmed });
+      // Orchestrate plugin steps after a successful prompt generation
+      let orchestrationResult = null;
+      try {
+        orchestrationResult = await orchestrate(trimmed, win, { workspacePath: process.cwd() });
+      } catch (orchErr) {
+        // do not fail the generation for orchestration errors; send a warning
+        if (win && !win.isDestroyed()) {
+          win.webContents.send('orchestrator:error', { message: orchErr.message || 'Orchestration failed' });
+        }
       }
-      return { success: true, data: { id, fullText: trimmed } };
+
+      if (win && !win.isDestroyed()) {
+        win.webContents.send('prompt:done', { id, fullText: trimmed, orchestrationResult });
+      }
+      return { success: true, data: { id, fullText: trimmed, orchestrationResult } };
     } catch (err) {
       let msg = err.message || 'Unknown error';
       if (err.status === 401) msg = 'API key invalid or revoked';

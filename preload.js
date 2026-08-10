@@ -18,7 +18,9 @@ const allowedInvoke = [
 const allowedOn = [
   'prompt:chunk',
   'prompt:done',
-  'prompt:error'
+  'prompt:error',
+  'orchestrator:step',
+  'orchestrator:error'
 ];
 
 contextBridge.exposeInMainWorld('api', {
