@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self' https://api.openai.com;">
+  <title>Game Prompt Forge</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="app">
+    <header>
+      <h1>Game Prompt Forge</h1>
+      <button id="btn-settings" type="button">Settings</button>
+    </header>
+
+    <main>
+      <div class="inputs">
+        <label for="idea">Idea</label>
+        <div class="idea-row">
+          <input id="idea" type="text" placeholder="e.g. alien spacecraft shmup" maxlength="200" />
+          <button id="btn-expand-idea" type="button">Expand</button>
+        </div>
+
+        <label for="genre">Genre</label>
+        <input id="genre" type="text" list="genre-presets" placeholder="e.g. top-down cozy farming RPG" maxlength="120" />
+        <datalist id="genre-presets">
+          <option value="top-down cozy island farming RPG">
+          <option value="vertical retro space shooter">
+          <option value="tower defense">
+          <option value="arena survival roguelite">
+          <option value="side-scrolling platformer">
+          <option value="top-down dungeon adventure">
+          <option value="mobile match-3 battle">
+          <option value="survival base defense">
+          <option value="endless runner">
+        </datalist>
+
+        <label for="theme">Theme / description</label>
+        <textarea id="theme" rows="3" placeholder="e.g. celestial clockwork observatory with free tower placement" maxlength="500"></textarea>
+
+        <div class="actions">
+          <button id="btn-generate" type="button">Generate</button>
+          <button id="btn-stop" type="button" class="hidden">Stop</button>
+          <button id="btn-regenerate" type="button" disabled>Regenerate</button>
+          <button id="btn-copy" type="button" disabled>Copy</button>
+        </div>
+      </div>
+
+      <div class="output-wrap">
+        <label>Generated prompt</label>
+        <pre id="output">Generated prompt will appear here</pre>
+      </div>
+
+      <aside id="history-panel">
+        <h2>History</h2>
+        <ul id="history-list"></ul>
+      </aside>
+    </main>
+
+    <footer>
+      <span id="status">Ready</span>
+      <span id="spinner" class="hidden" aria-hidden="true" title="Working">⏳</span>
+    </footer>
+  </div>
+
+  <div id="settings-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="settings-title">
+    <div class="modal-content" role="document">
+      <h2 id="settings-title">Settings</h2>
+      <label for="api-key">OpenAI API Key</label>
+      <div class="api-key-row">
+        <input id="api-key" type="password" placeholder="sk-..." autocomplete="off" aria-label="OpenAI API key" />
+        <button id="btn-toggle-api-key" type="button" aria-pressed="false" aria-label="Show API key">Show</button>
+      </div>
+      <label for="model">Model</label>
+      <input id="model" type="text" />
+      <label for="temperature">Temperature</label>
+      <input id="temperature" type="number" min="0" max="2" step="0.1" />
+      <div class="modal-actions">
+        <button id="btn-save-settings" type="button">Save</button>
+        <button id="btn-close-settings" type="button">Close</button>
+      </div>
+      <p id="settings-msg" class="msg"></p>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+# Node
+node_modules/
+npm-debug.log*
+.yarn/
+.pnp.*
+
+# Build output
+dist/
+build/
+out/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Electron
+*.exe
+*.dll
+*.asar
+
+# Logs
+*.log
+
+# Secrets
+.env
+.env.*
+*.pem
+*.key
+
+# IDE
+.vscode/
+.idea/
+
+# Database
+*.db
+*.sqlite

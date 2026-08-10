@@ -1,0 +1,40 @@
+{
+  "name": "game-prompt-forge",
+  "version": "1.0.0",
+  "description": "Generate Codex game-prototype prompts in Game Prompt Library style",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "node --test tests/**/*.test.js",
+    "test:e2e": "playwright test --config=playwright.config.js",
+    "clean": "node scripts/clean.js",
+    "pack": "electron-builder --win --x64",
+    "postinstall": "electron-rebuild -f -w better-sqlite3"
+  },
+
+  "author": "Tony",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "electron": "^43.3.0",
+    "electron-builder": "^26.15.3",
+    "@playwright/test": "^1.44.0",
+    "playwright": "^1.44.0"
+  },
+  "dependencies": {
+    "better-sqlite3": "^13.0.3",
+    "openai": "^4.77.0"
+  },
+  "build": {
+    "appId": "com.gamepromptforge.app",
+    "productName": "Game Prompt Forge",
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "build/icon.ico"
+    }
+  }
+}
