@@ -44,18 +44,6 @@ function createMainWindow() {
   });
 
   win.loadFile(path.join(__dirname, '..', 'src', 'index.html'));
-
-  // Forward renderer console messages to the main process log for debugging
-  try {
-    win.webContents.on('console-message', (_event, level, message, line, sourceId) => {
-      console.log(`RENDERER [${level}] ${sourceId}:${line} - ${message}`);
-    });
-    // Open DevTools detached so errors and logs are visible during debugging
-    win.webContents.openDevTools({ mode: 'detach' });
-  } catch (e) {
-    console.error('Could not attach console listener or open DevTools:', e);
-  }
-
   return win;
 }
 
